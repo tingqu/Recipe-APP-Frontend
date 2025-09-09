@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import Foundation
 
 @main
 struct RecipeApp_frontendApp: App {
+    @State private var appRouter = AppRouter()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(appRouter)
+
         }
     }
 }
+

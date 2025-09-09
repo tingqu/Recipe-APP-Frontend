@@ -9,7 +9,7 @@ enum HTTPMethod: String {
 enum APIError: Error {
     case invalidResponse
     case invalidData
-    case httpStatus(code: Int, data: Data)
+    case httpStatus(code: Int)
     case decoding(DecodingError)
     case transport(Error)
 }

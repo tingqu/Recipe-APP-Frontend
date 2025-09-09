@@ -24,7 +24,17 @@ final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
         do {
             request = try endpoint.asURLRequest()
         } catch {
+            print("❌ asURLRequest() failed:", error)
+
             return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        // Log the request
+        print("🌐 \(request.httpMethod ?? "?") \(request.url?.absoluteString ?? "?")")
+        if let headers = request.allHTTPHeaderFields { print("↗️ Headers:", headers) }
+        if let body = request.httpBody,
+           let bodyStr = String(data: body, encoding: .utf8) {
+            print("↗️ Body:", bodyStr)
         }
 
         return session.dataTaskPublisher(for: request)
@@ -33,7 +43,7 @@ final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
                     throw APIError.invalidResponse
                 }
                 guard (200...299).contains(http.statusCode) else {
-                    throw APIError.httpStatus(code: http.statusCode, data: data)
+                    throw APIError.httpStatus(code: http.statusCode)
                 }
                 return data
             }
