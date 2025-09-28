@@ -36,25 +36,28 @@ final class URLSessionAPIClient<EndpointType: APIEndpoint>: APIClient {
            let bodyStr = String(data: body, encoding: .utf8) {
             print("↗️ Body:", bodyStr)
         }
-
+        
+        // URLSessionAPIClient.swift
         return session.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let http = response as? HTTPURLResponse else {
                     throw APIError.invalidResponse
                 }
                 guard (200...299).contains(http.statusCode) else {
-                    throw APIError.httpStatus(code: http.statusCode)
+                    let body = String(data: data, encoding: .utf8) ?? "<\(data.count) bytes>"
+                    print("🚫 HTTP \(http.statusCode) \(request.httpMethod ?? "") \(request.url?.absoluteString ?? "")")
+                    print("⬅️ Error body:", body)
+                    throw APIError.httpStatus(code: http.statusCode, body: body)
                 }
                 return data
             }
             .decode(type: T.self, decoder: decoder)
             .mapError { error -> Error in
-                if let decErr = error as? DecodingError { return APIError.decoding(decErr) }
-                if let apiErr = error as? APIError { return apiErr }
-                return APIError.transport(error)
+                if let dec = error as? DecodingError { return APIError.decoding(dec) }
+                if let url = error as? URLError { return APIError.transport(url) }
+                return error
             }
-            // Move heavy work off main if you want; deliver back on main in call site.
-            .subscribe(on: DispatchQueue.global(qos: .utility))
             .eraseToAnyPublisher()
+
     }
 }

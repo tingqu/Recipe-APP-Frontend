@@ -12,7 +12,7 @@ import Observation
 @Observable class AppRouter {
     //MARK: - App states
     var presentedSheet: PresentedSheet?
-    var selectedTab: ContentView.Tab = .a
+    var selectedTab: MainTabView.Tab = .a
     
     //MARK: - Routers
     var homeRouter = HomeRouter()

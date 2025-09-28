@@ -1,3 +1,4 @@
+import Foundation
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
@@ -6,12 +7,21 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
-enum APIError: Error {
+// APIError.swift
+enum APIError: Error, LocalizedError {
     case invalidResponse
-    case invalidData
-    case httpStatus(code: Int)
+    case httpStatus(code: Int, body: String)
     case decoding(DecodingError)
-    case transport(Error)
+    case transport(URLError)
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidResponse: return "Invalid response."
+        case .httpStatus(let code, let body): return "HTTP \(code): \(body)"
+        case .decoding(let e): return "Decoding error: \(e)"
+        case .transport(let e): return "Network error: \(e.localizedDescription)"
+        }
+    }
 }
 
 enum ParameterEncoding { case queryString, jsonBody }

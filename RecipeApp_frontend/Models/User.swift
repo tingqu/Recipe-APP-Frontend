@@ -15,7 +15,7 @@ struct User: Identifiable, Codable, Hashable {
     let updatedAt: Date?   
 
     enum CodingKeys: String, CodingKey {
-        case id = "user_id"
+        case id
         case username
         case email
         case createdAt = "created_at"

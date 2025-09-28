@@ -10,7 +10,7 @@ import SwiftUI
 struct Home: View {
     typealias Destination = HomeRouter.Destination
     
-    private let navigationTitle = ContentView.Tab.a.title
+    private let navigationTitle = MainTabView.Tab.a.title
     @Environment(HomeRouter.self) private var router
     
     // MARK: - Views

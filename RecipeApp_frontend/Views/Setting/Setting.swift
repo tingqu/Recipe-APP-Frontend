@@ -28,7 +28,7 @@ struct Setting: View {
         }
     }
     
-    private let navigationTitle = ContentView.Tab.d.title
+    private let navigationTitle = MainTabView.Tab.d.title
     @Environment(SettingRouter.self) private var router
     @Environment(\.presentedSheet) var presentedSheet
     

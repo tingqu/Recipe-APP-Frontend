@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CurrentTabKey: EnvironmentKey {
-    static var defaultValue: Binding<ContentView.Tab> = .constant(.a)
+    static var defaultValue: Binding<MainTabView.Tab> = .constant(.a)
 }
 
 struct PresentedSheetKey: EnvironmentKey {
@@ -20,7 +20,7 @@ struct InboxRouterRouterKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var currentTab: Binding<ContentView.Tab> {
+    var currentTab: Binding<MainTabView.Tab> {
         get { self[CurrentTabKey.self] }
         set { self[CurrentTabKey.self] = newValue }
     }

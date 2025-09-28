@@ -29,8 +29,16 @@ class AuthService: AuthServiceProtocol,ObservableObject{
             .eraseToAnyPublisher()
     }
     
-    func signup(usename: String, email: String, password: String) -> AnyPublisher<SignUpResponse,  Error> {
-        apiClient.request(.signUp(username: usename, email: email, password: password))
+    func signup(usename: String, email: String, password: String) -> AnyPublisher<SignUpResponse, Error> {
+        print("➡️ signup for \(email)")
+        return apiClient.request(.signUp(username: usename, email: email, password: password))
+            .handleEvents(
+                receiveSubscription: { _ in print("📡 signup started") },
+                receiveOutput: { (resp: SignUpResponse) in print("✅ signup response: \(resp)") },
+                receiveCompletion: { completion in print("ℹ️ signup completion: \(completion)") },
+                receiveCancel: { print("❌ signup cancelled") }
+            )
+            .eraseToAnyPublisher()
     }
 }
 

@@ -11,7 +11,7 @@ struct Recipes: View {
     typealias Destination = RecipesRouter.Destination
     typealias TransportationType = TransportationView.TransportationType
     
-    private let navigationTitle = ContentView.Tab.b.title
+    private let navigationTitle = MainTabView.Tab.b.title
     @Environment(RecipesRouter.self) private var router
     
     // MARK: - Views
