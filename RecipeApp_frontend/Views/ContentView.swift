@@ -1,24 +1,24 @@
 //
 //  ContentView.swift
-//  RecipeApp_frontend
+//  RoutersDemo
 //
-//  Created by TingQu on 8/24/25.
+//  Created by Itay Amzaleg on 10/03/2024.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    //MARK: - Views
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if AuthManager.shared.accessToken == ""{
+            AuthView()
+        }else{
+            MainTabView()
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(AppRouter())
 }
